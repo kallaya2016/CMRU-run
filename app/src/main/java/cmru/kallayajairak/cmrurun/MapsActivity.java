@@ -7,6 +7,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -33,8 +34,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Setup to CMRU
         LatLng latLng = new LatLng(cmruLatADouble, cmruLngADouble);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
-
+        createStationMarker();
 
 
     }//onMapReady
+
+    private void createStationMarker() {
+        Mydata mydata = new Mydata();
+        double[] latDoubles = mydata.getLatStationDoubles();
+        double[] lngDoubles = mydata.getLngStationDoubles();
+        int []iconInts = mydata.getIconStationInts();
+
+        for (int i=0;i<latDoubles.length; i++) {
+            LatLng latLng = new LatLng(latDoubles[i], lngDoubles[i]);
+            mMap.addMarker(new MarkerOptions().position(latLng)
+            .icon(BitmapDescriptorFactory.fromResource(iconInts[i]))
+            .title("ด่านที่ " + Integer.toString(i+1)));
+        }
+
+    }//createStationMarker
 } //Main Class
