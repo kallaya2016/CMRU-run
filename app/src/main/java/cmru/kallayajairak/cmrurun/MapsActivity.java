@@ -5,6 +5,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -90,7 +91,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-        return Location;
+        return location;
     }
     public LocationListener locationListener = new LocationListener() {
         @Override
@@ -113,7 +114,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         public void onProviderDisabled(String s) {
 
         }
-    }
+    };
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -123,8 +124,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
         createStationMarker();
 
+        myloop();
+
 
     }//onMapReady
+
+    private void myloop() {
+        Log.d("29JuneV1", "userLat ==> " + userLaADouble);
+        Log.d("29JuneV1", "userlng ==> " + userLngADouble);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+               myloop();
+            }
+        }, 3000);
+
+
+    }
 
     private void createStationMarker() {
         Mydata mydata = new Mydata();
